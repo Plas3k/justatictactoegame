@@ -1,122 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Jogo da Velha com Bot</title>
+	<title>Tic Tac Toe</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<h1>Tic Tac Toe</h1>
+	<h1>Jogo da Velha</h1>
 	<div id="board">
-		<div class="cell"></div>
-		<div class="cell"></div>
-		<div class="cell"></div>
-		<div class="cell"></div>
-		<div class="cell"></div>
-		<div class="cell"></div>
-		<div class="cell"></div>
-		<div class="cell"></div>
-		<div class="cell"></div>
+		<div class="cell" data-index="0"></div>
+		<div class="cell" data-index="1"></div>
+		<div class="cell" data-index="2"></div>
+		<div class="cell" data-index="3"></div>
+		<div class="cell" data-index="4"></div>
+		<div class="cell" data-index="5"></div>
+		<div class="cell" data-index="6"></div>
+		<div class="cell" data-index="7"></div>
+		<div class="cell" data-index="8"></div>
 	</div>
 	<button id="reset">Restart</button>
-	<script src="game.js"></script>
+	<script src="script.js"></script>
 </body>
 </html>
-#board {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(3, 1fr);
-	width: 300px;
-	height: 300px;
-	margin: 0 auto;
-}
-.cell {
-	border: 1px solid black;
-	width: 100px;
-	height: 100px;
-	font-size: 4em;
-	text-align: center;
-	line-height: 90px;
-	cursor: pointer;
-}
-let board = ['', '', '', '', '', '', '', '', ''];
-let currentPlayer = 'X';
-let gameover = false;
-const cells = document.querySelectorAll('.cell');
-const resetButton = document.querySelector('#reset');
-
-function render() {
-	board.forEach((cell, index) => {
-		cells[index].textContent = cell;
-	});
-}
-
-function handleClick(event) {
-	const index = Array.from(cells).indexOf(event.target);
-	if (board[index] !== '' || gameover) {
-		return;
-	}
-	board[index] = currentPlayer;
-	render();
-	checkWin();
-	switchPlayer();
-	if (currentPlayer === 'O' && !gameover) {
-		botPlay();
-	}
-}
-
-function switchPlayer() {
-	currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-}
-
-function checkWin() {
-	const winningPositions = [		[0, 1, 2],
-		[3, 4, 5],
-		[6, 7, 8],
-		[0, 3, 6],
-		[1, 4, 7],
-		[2, 5, 8],
-		[0, 4, 8],
-		[2, 4, 6]
-	];
-	for (let i = 0; i < winningPositions.length; i++) {
-		const [a, b, c] = winningPositions[i];
-		if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-			gameover = true;
-			cells[a].style.color = 'red';
-			cells[b].style.color = 'red';
-			cells[c].style.color = 'red';
-			alert(`${currentPlayer} won!`);
-			return;
-		}
-	}
-	if (board.every(cell => cell !== '')) {
-		gameover = true;
-		alert('Tie!');
-	}
-}
-
-function botPlay() {
-	let botIndex = Math.floor(Math.random() * board.length);
-	while (board[botIndex] !== '') {
-		botIndex = Math.floor(Math.random() * board.length);
-	}
-	board[botIndex] = currentPlayer;
-	render();
-	checkWin();
-	switchPlayer();
-}
-
-function resetGame() {
-	board = ['', '', '', '', '', '', '', '', ''];
-	currentPlayer = 'X';
-	gameover = false;
-	cells.forEach(cell => {
-		cell.style.color = 'black';
-		cell.textContent = '';
-	});
-}
-
-cells.forEach(cell => {
-	cell.addEventListener('click', handleClick);
-});
-
-resetButton.addEventListener('click', resetGame);
