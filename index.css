@@ -1,0 +1,29 @@
+#board {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	width: 300px;
+	height: 300px;
+	margin: 0 auto;
+}
+
+.cell {
+	border: 1px solid black;
+	width: 100px;
+	height: 100px;
+	font-size: 4em;
+	text-align: center;
+	line-height: 90px;
+	cursor: pointer;
+}
+
+.cell:hover {
+	background-color: #ddd;
+}
+
+#reset {
+	margin-top: 20px;
+	font-size: 1.2em;
+	padding: 10px 20px;
+	cursor: pointer;
+}
